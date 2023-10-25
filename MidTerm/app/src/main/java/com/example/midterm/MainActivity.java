@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -70,7 +71,48 @@ public class MainActivity extends AppCompatActivity {
         updateGamePoint();
         rememberInitialPosition();
         setColorPlayLayout();
+    }
 
+    /**
+     * Lấy dữ liệu của player được gửi thông qua intent
+     * */
+    private void getData() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            username = bundle.getString("username");
+            playerId = bundle.getInt("playerId");
+            totalScore = bundle.getInt("totalScore");
+            totalPlay = bundle.getInt("totalPlay");
+            gameId = totalPlay+1;
+            txtUsername.setText("Username: "+username);
+        }
+    }
+
+    /**
+     * Lưu trạng thái hiện tại của Activity vào một Bundle để khôi phục
+     * */
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Lưu điểm của trò chơi
+        outState.putInt("gamePoint", gamePoint);
+        //Kiểm tra có hình ảnh đã tải lên và lưu vào bundle dưới dạng chuỗi
+        Uri uri = (Uri) imgUploaded.getTag();
+        if(uri != null) {
+            String uriString = uri.toString();
+            outState.putString("image", uriString);
+        }
+        //Kiểm tra nếu chỉ số màu hiện tại lớn hơn 0 thì lưu vào bundle
+        if (currentColorIndex > 0) {
+            outState.putInt("colorIndex", currentColorIndex);
+        }
+        //Truyền trạng thái button add image
+        outState.putBoolean("isEnable", isEnable);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
         /**
          * Khôi phục trạng thái của một Activity từ Bundle nếu có
          * */
@@ -96,43 +138,6 @@ public class MainActivity extends AppCompatActivity {
             isEnable = savedInstanceState.getBoolean("isEnable");
             btnAddImage.setEnabled(isEnable);
         }
-    }
-
-    /**
-     * Lấy dữ liệu của player được gửi thông qua intent
-     * */
-    private void getData() {
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            username = bundle.getString("username");
-            playerId = bundle.getInt("playerId");
-            totalScore = bundle.getInt("totalScore");
-            totalPlay = bundle.getInt("totalPlay");
-            gameId = totalPlay+1;
-            txtUsername.setText(username);
-        }
-    }
-
-    /**
-     * Lưu trạng thái hiện tại của Activity vào một Bundle để khôi phục
-     * */
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //Lưu điểm của trò chơi
-        outState.putInt("gamePoint", gamePoint);
-        //Kiểm tra có hình ảnh đã tải lên và lưu vào bundle dưới dạng chuỗi
-        Uri uri = (Uri) imgUploaded.getTag();
-        if(uri != null) {
-            String uriString = uri.toString();
-            outState.putString("image", uriString);
-        }
-        //Kiểm tra nếu chỉ số màu hiện tại lớn hơn 0 thì lưu vào bundle
-        if (currentColorIndex > 0) {
-            outState.putInt("colorIndex", currentColorIndex);
-        }
-        //Truyền trạng thái button add image
-        outState.putBoolean("isEnable", isEnable);
     }
 
     /**
