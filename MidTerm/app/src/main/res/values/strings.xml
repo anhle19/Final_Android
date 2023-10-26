@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MidTerm</string>
+    <string name="app_name">Final App</string>
     <string name="btnAddImage">Add Image</string>
     <string name="btnChangeBG">Change Background</string>
     <string name="btnFinish">Finish</string>
