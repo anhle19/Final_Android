@@ -35,6 +35,12 @@ public class LogoutActivity extends AppCompatActivity {
         setData();
     }
 
+    //Ngăn chặn hành vi back
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, R.string.failed_msg, Toast.LENGTH_SHORT).show();
+    }
+
     /**
      * Hiển thị các thông tin của Activity như điểm số mới, điểm số trước đó và thông báo nếu điểm số mới là kỷ lục.
      */

@@ -72,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
         setColorPlayLayout();
     }
 
+    // Ngăn chặn hành vi back
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, R.string.failed_msg, Toast.LENGTH_SHORT).show();
+    }
+
     /**
      * Lấy dữ liệu của player được gửi thông qua intent
      * */
